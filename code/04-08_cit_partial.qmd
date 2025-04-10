@@ -411,7 +411,7 @@ final_fit <- last_fit(final_spec,
                 split = weather_split)
 
 final_fit %>%
-  collect_predictions()
+  collect_predictions() # applies to the training set
 ```
 
 Metrics on the **test set**:
@@ -483,8 +483,13 @@ final_spec %>%
 Tree:  
 
 ```{r}
-
-  
+final_spec %>%
+  fit(strength_gtex ~ .,
+      data = bake(weather_prep, weather)
+      ) %>%
+  .$fit %>%
+  plot()
+  ## the model is very sensitive to the data you use to predict. it is up to discussion whether you want to use the whole set or just the training. It is best practice to use the training set
 ```
 
 **Therefore, solar radiation in July and vapor pressure in June were the most important variables affecting cotton fiber strength.**  
